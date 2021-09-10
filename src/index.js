@@ -6,31 +6,51 @@ import ExchangeService from "./exchange-service";
 import codes from "./codes";
 /*
 Todos
-field to enter amount - form 
 error handling/display
 README - instructions, code styling
+
+
+ if(!codes.includes(targetCurrency)) {
+        display.text(`I'm sorry, ${targetCurrency} is not a valid currency code.`);
+      }
 */
 $(document).ready(function () {
   const amountInput = $("#amount-input");
-  const rates = {};
-  console.log(codes);
+  const display = $("#converted-display");
+
+  // const rates = {};
+
+  (function populateSelect() {
+    const optionsHtml = Object.keys(codes)
+      .map((code) => {
+        return `<option value ="${code}">${codes[code]} (${code})</option>`;
+      })
+      .join("");
+    $("#currency-select").append(optionsHtml);
+  })();
+
+  function displayConversion(tarCurrency, amt) {
+    display.text(`Equals ${amt} ${tarCurrency}`);
+  }
 
   $("#amount-form").submit(function (e) {
     e.preventDefault();
     const amount = parseFloat(amountInput.val()) || 1;
-    console.log(amount);
+    const inputCurrency = "USD";
+    const targetCurrency =
+      $("#target-input").val() || $("#currency-select").val();
 
-    ExchangeService.convert().then(
-      (data) => {
-        rates[data.base_code] = data.conversion_rates;
-        $("#converted-display").text(`${amount} USD is equivalent to ${(amount * rates["USD"]["KRW"]).toFixed(2)} ${codes["KRW"]}`);
-      },
-      (response) => {
-        console.dir(
-          "response",
-          `The following error was encountered when making this request: ${response.status} `
+    ExchangeService.convert(inputCurrency, targetCurrency, amount).then((response) => {
+      console.log(response);
+
+      if (!response.result) {
+        display.text(
+          `The following error was encountered when making this request: ${response}. Please confirm that you have entered the currency code correctly, or select from the menu.`
         );
+      } else {
+        console.log(response);
+        displayConversion(response.conversion_result, response.target_code);
       }
-    );
+    });
   });
 });

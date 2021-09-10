@@ -10,8 +10,15 @@
     <div class="container-fluid text-center">
       <h1>Currency-Exchange</h1>
       <form action="submit" id="amount-form">
-        <h2>Enter amount of USD to convert:</h2>
+        <h2>Enter amount in USD to convert:</h2>
         <input type="number" placeholder="1" id="amount-input" class="form-control">
+        <h2>Enter the 3 letter code of the type of currency you want to convert to :</h2>
+        <input type="text" id="target-input"
+        placeholder="JPY" class="form-control">
+        <h2>Or select a code from this menu:</h2>
+        <select class="form-control" id="currency-select">
+
+        </select>
         <button class="my-3 btn btn-success" id="convert-button">Convert</button>
       </form>
 

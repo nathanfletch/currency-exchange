@@ -1,17 +1,18 @@
 export default class ExchangeService {
-  static convert() {
+  static convert(base, target, amount) {
+    //`https://v6.exchangerate-api.com/v6/${process.env.API_KEY}/latest/USD`
     return fetch(
-      `https://v6.exchangerate-api.com/v6/${process.env.API_KEY}/latest/USD`
+      `https://v6.exchangerate-api.com/v6/${process.env.API_KEY}/pair/${base}/${target}/${amount}`
     )
       .then((response) => {
+        console.log(response)
         if (!response.ok) {
-          console.log(response);
-          throw Error(response);
+
+          throw Error(response.status);
         }
         return response.json();
       })
       .catch((error) => {
-        console.log(error);
         return error;
       });
   }

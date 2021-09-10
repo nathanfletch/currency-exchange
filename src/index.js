@@ -10,20 +10,28 @@ field to enter amount - form
 error handling/display
 README - instructions, code styling
 */
-// const rates = {};
-const amountInput = $('#amount-input');
+$(document).ready(function () {
+  const amountInput = $("#amount-input");
 
-$("#convert-button").submit(function (e) {
-  e.preventDefault();
-  const amount = parseFloat(amountInput.val());
-  console.log(amount);
-  
-  ExchangeService.convert().then((data) => {
-    if(!data.ok) {
-      console.log("post error to dom")
-    }
-    console.log("data", data);
-  }, (response) => {
-    console.dir("response", response)
+  $("#amount-form").submit(function (e) {
+    e.preventDefault();
+    const amount = parseFloat(amountInput.val());
+    console.log(amount);
+
+    ExchangeService.convert().then(
+      (data) => {
+        if (!data.ok) {
+          console.log(
+            `The following error was encountered when making this request: ${data.status} `
+          );
+        } else {
+          console.log(data);
+        }
+        console.log("data", data);
+      },
+      (response) => {
+        console.dir("response", response);
+      }
+    );
   });
 });

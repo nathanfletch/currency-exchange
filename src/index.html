@@ -9,7 +9,11 @@
   <body>
     <div class="container-fluid text-center">
       <h1>Currency-Exchange</h1>
-      <button class="btn btn-success" id="convert-button">Convert</button>
+      <form action="submit" id="amount-form">
+        <label for="amount-input">Enter amount of USD to convert:</label>
+        <input type="number" placeholder="10" id="amount-input" class="form-control">
+        <button class="btn btn-success" id="convert-button">Convert</button>
+      </form>
     </div>
   </body>
 </html>
